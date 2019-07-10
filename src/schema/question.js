@@ -41,8 +41,14 @@ type Question @key (fields: "id"){
     level: String!
     answer: String!
     option: [String]!
-    author: User
+    author: User 
     book: String!
+}
+
+type Questions @key (fields: "id"){
+    id: [String]
+    questions: [Question]
+    
 }
 
 type Book @key (fields: "book"){
@@ -64,5 +70,5 @@ input SearchInput {
 
 extend type User @key(fields: "id") {
     id: ID! @external    
-  }
+  }  
 `;

@@ -19,18 +19,22 @@ app.use(cors());
 
 const getMe = async req => {
   const token = req.headers['x-token'];
-  //console.log('token', token);
-  if (token !== 'undefined') {
-    try {
-      return await jwt.verify(token, process.env.SECRET);
-    } catch (e) {
-      console.log(e);
-      throw new AuthenticationError(
-        'Your session expired. Sign in again.',
-      );
+  console.log('token in qb', typeof token);
+  if (token ) {
+    console.log(token);
+    if (token !== "undefined"){
+      try {
+        return await jwt.verify(token, process.env.SECRET);
+      } catch (e) {
+        console.log(e);
+        throw new AuthenticationError(
+          'Your session expired. Sign in again.',
+        );
+      }  
     }
+    
   }
-};
+}
 
 
 
@@ -79,7 +83,8 @@ connectDb().then(async () => {
     models.QuestionBook.deleteMany({}),
     ]); 
     */
-    createUsersWithMessages(new Date());
+
+    //createUsersWithMessages(new Date());
 
     
     console.log('DB connected'); 

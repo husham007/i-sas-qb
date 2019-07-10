@@ -60,25 +60,39 @@ const fromCursorHash = string =>
             return questions;
         },
       },
-
+      /*
       Question: {
           author: async (question, args, {models})=>{
               return await models.User.findById(question.author)
           }
-      },
-
+      }
+      */
       Question: {
+        async __resolveReference(parent, { me, models }) {         
+            return await models.Question.findById(parent.id)
+          },
         author(question) {
           return { __typename: "User", id: question.author };
         }
       },
+
+      Questions: {
+        async __resolveReference(parent, { me, models }) { 
+          console.log("parent in qb",parent);    
+              let question = []
+            //return await models.Question.findById(parent.id)
+          },
+        
+      },
+
+
       
 
       Mutation: {
           createQuestion: combineResolvers (
               isAuthenticated, async (parent, {statement, category, type, level, answer, options, book}, {me, models}) => {
                   const question = await models.Question.create({
-                      statement, category, type, level, answer, options, book, author: null,
+                      statement, category, type, level, answer, options, book, author: me.id,
                   });
                   return question;
               } 
