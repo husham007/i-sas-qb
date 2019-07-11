@@ -1,6 +1,6 @@
 import { combineResolvers } from 'graphql-resolvers';
 import { isAuthenticated, isQuestionOwner, isAdmin } from './authorization';
-import { stat } from 'fs';
+import mongoose from 'mongoose';
 
 
 const toCursorHash = string => Buffer.from(string).toString('base64');
@@ -68,8 +68,9 @@ const fromCursorHash = string =>
       }
       */
       Question: {
-        async __resolveReference(parent, { me, models }) {         
-            return await models.Question.findById(parent.id)
+        async __resolveReference(parent, { me, models }) {  
+           // console.log("Question", models)       
+            return await models.Question.findById(new mongoose.Types.ObjectId(parent.id))
           },
         author(question) {
           return { __typename: "User", id: question.author };
@@ -77,13 +78,19 @@ const fromCursorHash = string =>
       },
 
       Questions: {
-        async __resolveReference(parent, { me, models }) { 
-          console.log("parent in qb",parent);    
-              let question = []
-            //return await models.Question.findById(parent.id)
-          },
+      
+          questions: async  (parent, args, {me, models})=>{
+            console.log("parent",parent);
+            return await parent.ids.map(question => {
+              console.log(question)
+               return models.Question.findById(new mongoose.Types.ObjectId(question));                  
+            });
+            
+          }
         
       },
+
+      
 
 
       

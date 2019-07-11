@@ -45,11 +45,15 @@ type Question @key (fields: "id"){
     book: String!
 }
 
-type Questions @key (fields: "id"){
-    id: [String]
-    questions: [Question]
+type Questions @key (fields: "ids"){
+    ids: [ID]
+    questions: [Question!]
     
 }
+
+
+
+
 
 type Book @key (fields: "book"){
     book: String!
