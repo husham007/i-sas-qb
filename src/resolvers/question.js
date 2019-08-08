@@ -1,5 +1,5 @@
 import { combineResolvers } from 'graphql-resolvers';
-import { isAuthenticated, isQuestionOwner, isAdmin } from './authorization';
+import { isAuthenticated, isQuestionOwner, isAdmin, isTest } from './authorization';
 import mongoose from 'mongoose';
 
 
@@ -59,6 +59,19 @@ const fromCursorHash = string =>
 
             return questions;
         },
+
+        autoCheckAnswer: combineResolvers (
+          isTest, async (parent, {questionId, answer}, {me, models}) => {
+            const question = await models.Question.findById(questionId);
+            if(question.answer === answer){
+              return true;
+            }
+            else {
+              return false;
+            }
+          } 
+      ),
+
       },
       /*
       Question: {
@@ -74,7 +87,7 @@ const fromCursorHash = string =>
           },
         author(question) {
           return { __typename: "User", id: question.author };
-        }
+        },
       },
 
       Questions: {
@@ -99,11 +112,14 @@ const fromCursorHash = string =>
           createQuestion: combineResolvers (
               isAuthenticated, async (parent, {statement, category, type, level, answer, options, book}, {me, models}) => {
                   const question = await models.Question.create({
-                      statement, category, type, level, answer, options, book, author: me.id,
+                      statement, category, type, level, answer, options, book, 
+                      author: me ? me.id : null ,
                   });
                   return question;
               } 
           ),
+
+          
 
           editQuestion: combineResolvers(isQuestionOwner, isAuthenticated, async (parent, {id, statement, category, type, level, answer, options, book}, {me, models}) => {
 

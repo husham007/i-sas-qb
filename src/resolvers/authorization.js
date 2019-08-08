@@ -6,7 +6,15 @@ export const isAuthenticated = (parent, args, { me }) =>{
  
 }
 
-  
+export const isTest = async (
+  parent,
+  { id },
+  { models, me },
+) => {
+
+  return skip;
+};
+
 
   export const isMessageOwner = async (
     parent,

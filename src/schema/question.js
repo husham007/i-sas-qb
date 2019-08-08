@@ -10,6 +10,7 @@ extend type Query {
     # Fetches a Question Object given its ID.
     question(id: ID!): Question!
     searchQuestion (searchInput: SearchInput!): [Question]
+    autoCheckAnswer(questionId: ID!, answer: String!): Boolean!
 
     questionBooks: [Book]!
     questionBookById(id: ID!): Book!
@@ -17,9 +18,10 @@ extend type Query {
 }
 
 extend type Mutation {
-    createQuestion(statement: String!, category: String!, type: String!, level: String!, answer: String!, options: [String]! book: String!): Question!
+    createQuestion(statement: String!, category: String!, type: String!, level: String!, answer: String!, options: [String] book: String!): Question!
     editQuestion(id: ID!, statement: String!, category: String!, type: String!, level: String!, answer: String!, options: [String]! book: String!): Question!
     deleteQuestion(id: ID!): Boolean!
+    autoCheckAnswer(questionId: ID!, answer: String!): Boolean!
     
 }
 
