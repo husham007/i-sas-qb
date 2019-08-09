@@ -21,7 +21,7 @@ extend type Mutation {
     createQuestion(statement: String!, category: String!, type: String!, level: String!, answer: String!, options: [String] book: String!): Question!
     editQuestion(id: ID!, statement: String!, category: String!, type: String!, level: String!, answer: String!, options: [String]! book: String!): Question!
     deleteQuestion(id: ID!): Boolean!
-    autoCheckAnswer(questionId: ID!, answer: String!): Boolean!
+   
     
 }
 
