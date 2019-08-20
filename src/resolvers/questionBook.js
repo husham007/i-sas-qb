@@ -7,7 +7,7 @@ export default {
             return await models.QuestionBook.find();
         }, 
         questionBookByName: async (parent, {name}, {models}) => {
-            return await models.QuestionBook.find({book: name});
+            return await models.QuestionBook.findOne({book: name});
         }, 
        
     }
