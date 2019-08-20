@@ -5,6 +5,10 @@ export default {
     Query: {
         questionBooks: async (parent, param, {models}) => {
             return await models.QuestionBook.find();
-        }
+        }, 
+        questionBookByName: async (parent, {name}, {models}) => {
+            return await models.QuestionBook.find({book: name});
+        }, 
+       
     }
 }
