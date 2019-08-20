@@ -30,7 +30,7 @@ const fromCursorHash = string =>
                   page: questions, 
                   pageInfo: {
                       hasNextPage,
-                      endCursor: hasNextpage ? toCursorHash(questions[questions.length - 1].createdAt.toString(),
+                      endCursor: hasNextPage ? toCursorHash(questions[questions.length - 1].createdAt.toString(),
                       ): null,
                   },
               };
