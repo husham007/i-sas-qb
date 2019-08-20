@@ -32,7 +32,7 @@ type QuestionPages {
 
 type PageInformation {
     hasNextPage : Boolean!
-    endCursor: String!
+    endCursor: String
 }
 
 type Question @key (fields: "id"){
