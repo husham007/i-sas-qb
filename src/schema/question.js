@@ -6,11 +6,15 @@ extend type Query {
     # Each page have Questions and pageInfo
     # pageInfo has hasNextPage boolean and cursor for next page
     questions(cursor: String, limit: Int): QuestionPages!
+    allQuestions: [Question]
     
     # Fetches a Question Object given its ID.
     question(id: ID!): Question!
     searchQuestion (searchInput: SearchInput!): [Question]
     autoCheckAnswer(questionId: ID!, answer: String!): Boolean!
+    getStatistics(name: String!): [statistic]
+
+
 
     questionBooks: [Book]!
     questionBookById(id: ID!): Book!
@@ -23,6 +27,11 @@ extend type Mutation {
     deleteQuestion(id: ID!): Boolean!
    
     
+}
+
+type statistic {
+    key: String
+    value: String
 }
 
 type QuestionPages {

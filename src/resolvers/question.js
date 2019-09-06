@@ -1,6 +1,6 @@
 import { combineResolvers } from 'graphql-resolvers';
 import { isAuthenticated, isQuestionOwner, isAdmin, isTest } from './authorization';
-import mongoose from 'mongoose';
+import mongoose, { model } from 'mongoose';
 
 
 const toCursorHash = string => Buffer.from(string).toString('base64');
@@ -35,6 +35,10 @@ const fromCursorHash = string =>
                   },
               };
           },
+
+          allQuestions: async (parent, args, {models})=>{
+            return await models.Question.find();
+        },
           question: async (parent, {id}, {models})=>{
               return await models.Question.findById(id);
           },
@@ -59,6 +63,30 @@ const fromCursorHash = string =>
 
             return questions;
         },
+        getStatistics: async (parent, {name}, {models})=>{
+          let result = [];
+          let book =  await models.QuestionBook.findOne({book: name});
+
+          book.types.forEach(async type => {
+            let questions = await models.Question.find({type});
+            result.push({key: type, value: questions.length})
+          });
+
+          book.levels.forEach(async level => {
+            let questions = await models.Question.find({level});
+            result.push({key: level, value: questions.length})
+          });
+
+          book.categories.forEach(async category => {
+            let questions = await models.Question.find({category});
+            result.push({key: category, value: questions.length})
+          });
+
+          let questions = await models.Question.find({book: name});
+          result.push({key: name, value: questions.length})
+
+          return result
+      },
 
         autoCheckAnswer: combineResolvers (
           isTest, async (parent, {questionId, answer}, {me, models}) => {
@@ -102,10 +130,6 @@ const fromCursorHash = string =>
           }
         
       },
-
-      
-
-
       
 
       Mutation: {
