@@ -83,7 +83,7 @@ const fromCursorHash = string =>
           });
 
           let questions = await models.Question.find({book});
-          result.push({key: name, value: questions.length, statistic: "book"})
+          result.push({key: book, value: questions.length, statistic: "book"})
 
           return result
       },
