@@ -52,7 +52,7 @@ type Question @key (fields: "id"){
     type: String!
     level: String!
     answer: String!
-    option: [String]
+    options: [String]
     author: User 
     book: String!
 }
