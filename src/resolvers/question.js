@@ -63,27 +63,27 @@ const fromCursorHash = string =>
 
             return questions;
         },
-        getStatistics: async (parent, {name}, {models})=>{
+        getStatistics: async (parent, {book}, {models})=>{
           let result = [];
-          let book =  await models.QuestionBook.findOne({book: name});
+          let questionBook =  await models.QuestionBook.findOne({book});
 
-          book.types.forEach(async type => {
-            let questions = await models.Question.find({type});
-            result.push({key: type, value: questions.length})
+          questionBook.types.forEach(async type => {
+            let questions = await models.Question.find({type, book});
+            result.push({key: type, value: questions.length, statistic: "types"})
           });
 
-          book.levels.forEach(async level => {
-            let questions = await models.Question.find({level});
-            result.push({key: level, value: questions.length})
+          questionBook.levels.forEach(async level => {
+            let questions = await models.Question.find({level, book});
+            result.push({key: level, value: questions.length, statistic: "levels"})
           });
 
-          book.categories.forEach(async category => {
-            let questions = await models.Question.find({category});
-            result.push({key: category, value: questions.length})
+          questionBook.categories.forEach(async category => {
+            let questions = await models.Question.find({category, book});
+            result.push({key: category, value: questions.length, statistic: "categories"})
           });
 
-          let questions = await models.Question.find({book: name});
-          result.push({key: name, value: questions.length})
+          let questions = await models.Question.find({book});
+          result.push({key: name, value: questions.length, statistic: "book"})
 
           return result
       },

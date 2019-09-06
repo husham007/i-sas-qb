@@ -12,7 +12,7 @@ extend type Query {
     question(id: ID!): Question!
     searchQuestion (searchInput: SearchInput!): [Question]
     autoCheckAnswer(questionId: ID!, answer: String!): Boolean!
-    getStatistics(name: String!): [statistic]
+    getStatistics(book: String!): [statistic]
 
 
 
@@ -32,6 +32,7 @@ extend type Mutation {
 type statistic {
     key: String
     value: String
+    statistic: String
 }
 
 type QuestionPages {
